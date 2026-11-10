@@ -1,0 +1,891 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AuraGold Media Images Optimisation Plan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=JetBrains+Mono:wght@400;600&family=Kalam:wght@400;700&display=swap">
+<style>
+/* Layout: one reading column (~880px) of numbered design sections; diagrams and tables scroll inside their own frames. */
+:root {
+  --bg: #F4F3F7;
+  --surface: #FFFFFF;
+  --ink: #1C1726;
+  --muted: #5E5870;
+  --line: #DCD8E4;
+  --gold: #8A6100;
+  --gold-fill: #D9A93A;
+  --gold-wash: #FBF3DF;
+  --violet: #5B2E91;
+  --violet-wash: #EFE8F8;
+  --teal: #19695F;
+  --code-bg: #EEECF3;
+  --bar-gold-a: #F3D37A;
+  --bar-gold-b: #B8860B;
+  --bar-ink: #6E4E05;
+  --font-display: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --font-body: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --font-sketch: "Kalam", "Comic Sans MS", "Segoe Print", cursive;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #121019; --surface: #1B1824; --ink: #EEEAF5; --muted: #A69FB6; --line: #2F2A3B;
+    --gold: #E8BB4E; --gold-fill: #C99A2E; --gold-wash: #2A2213; --violet: #BFA2EC; --violet-wash: #261E36;
+    --teal: #63C7B9; --code-bg: #211D2C; --bar-gold-a: #F0CC6C; --bar-gold-b: #A87A0A; --bar-ink: #5B4004;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #121019; --surface: #1B1824; --ink: #EEEAF5; --muted: #A69FB6; --line: #2F2A3B;
+  --gold: #E8BB4E; --gold-fill: #C99A2E; --gold-wash: #2A2213; --violet: #BFA2EC; --violet-wash: #261E36;
+  --teal: #63C7B9; --code-bg: #211D2C; --bar-gold-a: #F0CC6C; --bar-gold-b: #A87A0A; --bar-ink: #5B4004;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 16px; line-height: 1.6;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 40px 80px;
+}
+.wrap { max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: 56px; }
+h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; line-height: 1.15; margin: 0; }
+h1 { font-size: clamp(2.2rem, 6vw, 3.4rem); font-weight: 800; font-stretch: 78%; letter-spacing: -0.01em; }
+h2 { font-size: 1.7rem; font-weight: 750; font-stretch: 85%; }
+h3 { font-size: 1.1rem; font-weight: 700; }
+p { margin: 0; max-width: 68ch; }
+a { color: var(--violet); }
+code, .mono { font-family: var(--font-mono); font-size: 0.86em; }
+:not(pre) > code { background: var(--code-bg); padding: 1px 5px; border-radius: 4px; overflow-wrap: anywhere; }
+:focus-visible { outline: 2px solid var(--violet); outline-offset: 2px; }
+
+.eyebrow { font-family: var(--font-mono); font-size: 0.74rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+.section { display: flex; flex-direction: column; gap: 18px; }
+.section > header { display: flex; flex-direction: column; gap: 6px; border-top: 1px solid var(--line); padding-top: 22px; }
+.sec-no { font-family: var(--font-mono); font-size: 0.78rem; color: var(--gold); letter-spacing: 0.06em; }
+.lead { font-size: 1.12rem; color: var(--muted); }
+.note { font-size: 0.86rem; color: var(--muted); }
+.est { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gold); border: 1px solid currentColor; border-radius: 3px; padding: 0 4px; vertical-align: 2px; white-space: nowrap; }
+
+/* Hero */
+.hero { display: grid; grid-template-columns: minmax(0, 1fr) 210px; gap: 32px; align-items: center; }
+.hero-text { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+.ingot {
+  aspect-ratio: 3 / 5; max-width: 100%; border-radius: 14px; position: relative;
+  background: linear-gradient(135deg, var(--bar-gold-a), var(--bar-gold-b) 70%);
+  box-shadow: inset 0 0 0 6px rgba(255,255,255,0.18), inset 0 0 0 9px rgba(0,0,0,0.12), 0 18px 40px -18px rgba(90,60,0,0.6);
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px;
+  color: var(--bar-ink); font-family: var(--font-display); font-stretch: 70%; text-align: center;
+}
+.ingot .plate { border: 2px solid currentColor; padding: 4px 12px; font-size: 1.5rem; font-weight: 700; opacity: 0.85; }
+.ingot .fine { font-size: 1.35rem; font-weight: 700; line-height: 1.1; opacity: 0.85; }
+.figures { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; border: 1.5px solid var(--gold); border-radius: 6px; background: var(--surface); }
+.figure { padding: 14px 16px; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.figure + .figure { border-left: 1px solid var(--line); }
+.figure b { font-family: var(--font-display); font-stretch: 80%; font-size: 1.7rem; font-weight: 800; color: var(--gold); line-height: 1.1; font-variant-numeric: tabular-nums; }
+.figure span { font-size: 0.84rem; color: var(--muted); line-height: 1.35; }
+
+/* Contents */
+.toc { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 0.9rem; padding: 0; margin: 0; list-style: none; }
+.toc a { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--line); }
+.toc a:hover { border-color: var(--violet); color: var(--violet); }
+.toc span { font-family: var(--font-mono); font-size: 0.75rem; color: var(--gold); margin-right: 4px; }
+
+/* Lists, tables, code */
+.two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 16px 18px; display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.panel ul { margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 4px; }
+.scroll { overflow-x: auto; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); }
+table { border-collapse: collapse; width: 100%; font-size: 0.9rem; }
+th, td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); font-weight: 600; background: var(--code-bg); }
+tr:last-child td { border-bottom: 0; }
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+pre { margin: 0; background: var(--code-bg); border-radius: 8px; padding: 14px 16px; overflow-x: auto; font-family: var(--font-mono); font-size: 0.8rem; line-height: 1.55; border: 1px solid var(--line); }
+.k { color: var(--violet); } .s { color: var(--teal); } .c { color: var(--muted); }
+
+.steps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.steps li { display: grid; grid-template-columns: 36px minmax(0, 1fr); gap: 12px; padding: 12px 0; border-bottom: 1px dashed var(--line); }
+.steps li:last-child { border-bottom: 0; }
+.steps .n { font-family: var(--font-sketch); font-weight: 700; font-size: 1.15rem; width: 30px; height: 30px; border-radius: 50%; border: 1.5px solid var(--gold); color: var(--gold); display: grid; place-items: center; }
+.steps .who { font-family: var(--font-mono); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
+
+/* Sketch diagrams */
+.diagram { overflow-x: auto; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 8px; }
+.diagram svg { display: block; width: 100%; height: auto; min-width: 760px; }
+.diagram.small svg { min-width: 640px; }
+.d-label { font-family: var(--font-sketch); font-size: 17px; fill: var(--ink); font-weight: 700; }
+.d-sub { font-family: var(--font-mono); font-size: 10.5px; fill: var(--muted); }
+.d-zone { font-family: var(--font-sketch); font-size: 15px; fill: var(--muted); }
+.d-edge { font-family: var(--font-sketch); font-size: 14px; paint-order: stroke; stroke: var(--surface); stroke-width: 5px; stroke-linejoin: round; }
+.tone-client { color: var(--violet); } .tone-edge { color: var(--gold); } .tone-store { color: var(--muted); } .tone-backend { color: var(--teal); }
+.tone-zone { color: var(--line); } .tone-write { color: var(--gold); } .tone-read { color: var(--violet); }
+.d-edge.tone-write { fill: var(--gold); } .d-edge.tone-read { fill: var(--violet); }
+.hatch { opacity: 0.3; }
+.plain { fill: none; stroke: currentColor; stroke-width: 1.6; }
+.plain-fill { fill: currentColor; fill-opacity: 0.1; stroke: currentColor; stroke-width: 1.6; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 20px; font-size: 0.84rem; color: var(--muted); }
+.legend i { display: inline-block; width: 26px; height: 0; border-top: 2px solid var(--gold); vertical-align: middle; margin-right: 6px; }
+.legend i.read { border-top: 2px dashed var(--violet); }
+
+/* URL anatomy */
+.url { font-family: var(--font-mono); font-size: 0.86rem; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 14px 16px; line-height: 2; overflow-wrap: anywhere; }
+.url span { border-bottom: 2px solid; padding-bottom: 1px; }
+.u-host { border-color: var(--muted) !important; } .u-cdn { border-color: var(--teal) !important; color: var(--teal); }
+.u-opt { border-color: var(--gold) !important; color: var(--gold); } .u-key { border-color: var(--violet) !important; color: var(--violet); }
+.url-key { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 0.82rem; color: var(--muted); }
+.url-key b { font-weight: 600; }
+
+/* Calculator */
+.calc { background: var(--surface); border: 1.5px solid var(--violet); border-radius: 10px; padding: 18px; display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: 22px; }
+.calc label { display: flex; flex-direction: column; gap: 6px; font-size: 0.8rem; font-weight: 600; color: var(--muted); }
+.calc select { font: inherit; font-size: 0.95rem; color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 6px; padding: 8px 10px; }
+.calc-in { display: flex; flex-direction: column; gap: 14px; }
+.calc-out { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+.calc-row { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+.calc-row div { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.calc-row small { font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+.calc-row b { font-family: var(--font-display); font-stretch: 85%; font-size: 1.35rem; font-variant-numeric: tabular-nums; }
+.calc-url { font-family: var(--font-mono); font-size: 0.76rem; background: var(--code-bg); border-radius: 6px; padding: 8px 10px; overflow-wrap: anywhere; color: var(--muted); }
+.calc-url .u-opt { border-bottom: 0; }
+.calc-why { font-size: 0.86rem; color: var(--muted); }
+
+/* Bars (single series, drawn to one linear scale per chart) */
+.chart { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 16px 18px; display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.chart h3 { font-size: 0.98rem; }
+.bars { display: flex; flex-direction: column; gap: 8px; }
+.bar { display: grid; grid-template-columns: 112px minmax(0, 1fr) 76px; gap: 10px; align-items: center; font-size: 0.84rem; position: relative; }
+.bar .lbl { color: var(--muted); font-variant-numeric: tabular-nums; }
+.bar .track { height: 16px; position: relative; }
+.bar .fill { position: absolute; inset: 0 auto 0 0; background: var(--gold-fill); border-radius: 0 4px 4px 0; min-width: 2px; }
+.bar.muted .fill { background: var(--line); }
+.bar .val { text-align: right; font-variant-numeric: tabular-nums; font-weight: 600; }
+.bar:hover .fill { filter: brightness(1.08); }
+.bar:hover .lbl { color: var(--ink); }
+.axis { display: grid; grid-template-columns: 112px minmax(0, 1fr) 76px; gap: 10px; font-size: 0.7rem; color: var(--muted); font-family: var(--font-mono); }
+.axis div { display: flex; justify-content: space-between; border-top: 1px solid var(--line); padding-top: 3px; }
+
+/* Placeholder demo */
+.stages { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.stage { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.tile { aspect-ratio: 1; max-width: 100%; border-radius: 10px; overflow: hidden; position: relative; background: #2B1650; display: grid; place-items: center; }
+.tile.avg { background: #4A2C55; }
+.tile .mini { width: 34%; aspect-ratio: 3 / 5; border-radius: 6px; background: linear-gradient(135deg, #F3D37A, #B8860B 70%); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; color: #6E4E05; font-family: var(--font-display); font-stretch: 70%; font-weight: 700; font-size: clamp(0.5rem, 1.6vw, 0.8rem); text-align: center; line-height: 1.1; }
+.tile .mini span { border: 1px solid currentColor; padding: 1px 4px; }
+.tile.blur .mini { filter: blur(9px); }
+.tile.blur { background: radial-gradient(circle at 50% 55%, #6B3FA0, #2B1650 70%); }
+.tile.sharp { background: radial-gradient(circle at 50% 55%, #6B3FA0, #2B1650 70%); }
+.stage b { font-size: 0.9rem; }
+.stage span { font-size: 0.82rem; color: var(--muted); }
+
+/* Phases */
+.phases { display: flex; flex-direction: column; gap: 10px; }
+.phase { display: grid; grid-template-columns: 92px minmax(0, 1fr); gap: 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 14px 16px; }
+.phase .tag { font-family: var(--font-mono); font-size: 0.74rem; color: var(--gold); letter-spacing: 0.04em; }
+.phase .tag b { display: block; font-family: var(--font-display); font-size: 1.5rem; font-stretch: 80%; color: var(--ink); }
+.phase ul { margin: 6px 0 0; padding-left: 18px; font-size: 0.9rem; }
+.phase .exit { font-size: 0.85rem; color: var(--teal); margin-top: 6px; }
+
+.sev { font-family: var(--font-mono); font-size: 0.66rem; letter-spacing: 0.06em; padding: 1px 5px; border-radius: 3px; border: 1px solid currentColor; white-space: nowrap; }
+.sev.high { color: #B42318; } .sev.med { color: var(--gold); } .sev.low { color: var(--muted); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .sev.high { color: #FF8A7A; } }
+:root[data-theme="dark"] .sev.high { color: #FF8A7A; }
+
+footer { font-size: 0.82rem; color: var(--muted); border-top: 1px solid var(--line); padding-top: 18px; }
+
+@media (max-width: 760px) {
+  .hero { grid-template-columns: 1fr; }
+  .ingot { max-width: 150px; }
+  .figures { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .figure:nth-child(3) { border-left: 0; }
+  .figure:nth-child(n+3) { border-top: 1px solid var(--line); }
+  .two, .stages { grid-template-columns: 1fr; }
+  .calc { grid-template-columns: 1fr; }
+  .calc-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .bar, .axis { grid-template-columns: 86px minmax(0, 1fr) 64px; }
+  .phase { grid-template-columns: 1fr; gap: 4px; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <section class="hero">
+    <div class="hero-text">
+      <p class="eyebrow">High-level design · Draft for AuraGold · 10 Nov 2026</p>
+      <h1>AuraGold Media Images Optimisation Plan</h1>
+      <p class="lead">How one studio photo of a 1 g 24 kt 999 bar becomes a sharp, small, correctly sized image on every phone, tablet and browser, without our servers ever touching the image bytes or resizing on request.</p>
+    </div>
+    <div class="ingot" role="img" aria-label="Illustration of a 1 gram, 24 karat, 999 fine gold bar">
+      <span class="plate">1 gram</span>
+      <span class="fine">24kt<br>999</span>
+    </div>
+  </section>
+
+  <div class="figures" aria-label="Headline figures">
+    <div class="figure"><b>0 bytes</b><span>of image data pass through the API</span></div>
+    <div class="figure"><b>1 → 5</b><span>one upload, five device sizes from the edge</span></div>
+    <div class="figure"><b>~89%</b><span>less worker CPU per upload <span class="est">est.</span></span></div>
+    <div class="figure"><b>93%</b><span>fewer pixels to decode for a product card</span></div>
+  </div>
+
+  <nav aria-label="Contents">
+    <ol class="toc">
+      <li><a href="#goals"><span>01</span>Goals</a></li>
+      <li><a href="#architecture"><span>02</span>Architecture</a></li>
+      <li><a href="#upload"><span>03</span>Upload path</a></li>
+      <li><a href="#processing"><span>04</span>Processing</a></li>
+      <li><a href="#delivery"><span>05</span>Cloudflare delivery</a></li>
+      <li><a href="#devices"><span>06</span>Device sizes</a></li>
+      <li><a href="#savings"><span>07</span>CPU &amp; memory</a></li>
+      <li><a href="#placeholders"><span>08</span>Placeholders</a></li>
+      <li><a href="#cloudflare"><span>09</span>Setup &amp; cost</a></li>
+      <li><a href="#api"><span>10</span>Data &amp; API</a></li>
+      <li><a href="#plan"><span>11</span>Rollout plan</a></li>
+    </ol>
+  </nav>
+
+  <!-- 01 -->
+  <section class="section" id="goals">
+    <header><span class="sec-no">01</span><h2>Goals and scope</h2></header>
+    <div class="two">
+      <div class="panel">
+        <h3>Goals</h3>
+        <ul>
+          <li>The stamped text on the bar (<b>1 gram</b>, <b>24kt</b>, <b>999</b>) and the hallmark stay readable at every size.</li>
+          <li>Each device downloads only the pixels it can show.</li>
+          <li>Uploads go straight to storage; the API never streams image bytes.</li>
+          <li>Heavy processing runs once per upload, off the request path.</li>
+          <li>A placeholder paints instantly, so product grids never show empty tiles.</li>
+          <li>Replacing a photo never needs a cache purge.</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h3>Out of scope for this design</h3>
+        <ul>
+          <li>Video, 360° spins and AR views of the bar.</li>
+          <li>Background removal or retouching (done in the studio before upload).</li>
+          <li>Live gold price overlays on images (rendered by the app as text).</li>
+          <li>Marketing banners and email images, which can reuse the same pipeline later.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 -->
+  <section class="section" id="architecture">
+    <header>
+      <span class="sec-no">02</span><h2>Architecture</h2>
+      <p class="lead">Three zones: the people and apps, Cloudflare (storage and edge), and our backend. Gold arrows are the upload path in order; violet dashed arrows are what happens when a customer views the bar.</p>
+    </header>
+    <div class="diagram"><svg id="d-arch" viewBox="0 0 1120 580" role="img" aria-label="Architecture: admin uploads to R2 with a signed URL from the API; a worker processes the image into a WebP master; apps fetch sized images from the Cloudflare edge, which reads the master from R2 once per size."></svg></div>
+    <div class="legend"><span><i></i>Upload path (numbers are the order)</span><span><i class="read"></i>View path</span></div>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Component</th><th>Job</th><th>Why it is here</th></tr></thead>
+        <tbody>
+          <tr><td>Admin CMS</td><td>Product team uploads the bar photos</td><td>Gets a signed URL and PUTs the file directly to R2</td></tr>
+          <tr><td>API (Express)</td><td>Signs upload URLs, saves <code>uploadKey</code> on the product, returns image metadata</td><td>Never receives image bytes, so it stays fast and small</td></tr>
+          <tr><td>R2 · uploads (private)</td><td>Raw uploads, then originals kept for reprocessing</td><td>Signed PUT only; 1-day expiry on abandoned uploads</td></tr>
+          <tr><td>Redis · BullMQ</td><td>One <code>process-image</code> job per media id</td><td>Retries with backoff; duplicate saves don't double-process</td></tr>
+          <tr><td>Image worker (sharp)</td><td>Makes one WebP master, ThumbHash, average colour, size</td><td>CPU-heavy work runs in its own process, never inside HTTP requests</td></tr>
+          <tr><td>R2 · media (public)</td><td>Processed masters at fixed, immutable keys</td><td>Zero egress fees; read by the edge, not by phones directly</td></tr>
+          <tr><td>Cloudflare edge</td><td>Resizes the master per URL and caches each size</td><td>Each size is made once and served from cache after that</td></tr>
+          <tr><td>MongoDB</td><td><code>Media</code> rows and the image copies on each product</td><td>Product reads build URLs without a second query</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 03 -->
+  <section class="section" id="upload">
+    <header>
+      <span class="sec-no">03</span><h2>Upload path</h2>
+      <p class="lead">Example: the studio exports <code>gold-bar-1g-front.jpg</code>, 4000 × 4000 px, about 8 MB. These steps match the numbers on the diagram.</p>
+    </header>
+    <ol class="steps">
+      <li><span class="n">1</span><div><span class="who">Admin → API</span><p>The product form gets an id first (<code>GET /products/new-id</code>), then asks <code>POST /uploads/signed-url</code> with <code>folder: products</code>, the product id, <code>purpose: primary</code>, <code>contentType: image/jpeg</code> and <code>contentLength: 8388608</code>. The API returns a PUT URL valid for 300 seconds, with type and size signed into it.</p></div></li>
+      <li><span class="n">2</span><div><span class="who">Admin → R2</span><p>The browser PUTs the 8 MB file straight to the private uploads bucket. R2 rejects it if the type or size differs from what was signed.</p></div></li>
+      <li><span class="n">3</span><div><span class="who">Admin → API</span><p>The product is saved with <code>images: [{ uploadKey, role: "primary", alt }]</code>. The API creates a <code>Media</code> row as <code>PROCESSING</code> and saves the product at once, without waiting.</p></div></li>
+      <li><span class="n">4</span><div><span class="who">API → Queue</span><p>A <code>process-image</code> job is queued with the media id as its job id, so a double save can't queue it twice.</p></div></li>
+      <li><span class="n">5</span><div><span class="who">Queue → Worker</span><p>A worker picks up the job (2 at a time per worker process by default).</p></div></li>
+      <li><span class="n">6</span><div><span class="who">Worker ↔ R2 uploads</span><p>The worker downloads the raw file, checks the real format from its bytes, and afterwards moves it to <code>originals/</code> so it can be reprocessed later.</p></div></li>
+      <li><span class="n">7</span><div><span class="who">Worker → R2 media</span><p>One WebP master, at most 2000 × 2000, goes to <code>products/&lt;id&gt;/primary/&lt;mediaId&gt;.webp</code> with a one-year immutable cache header.</p></div></li>
+      <li><span class="n">8</span><div><span class="who">Worker → MongoDB</span><p>The row becomes <code>READY</code> with key, width, height, ThumbHash and average colour, and those are copied onto the product so reads need no join.</p></div></li>
+    </ol>
+  </section>
+
+  <!-- 04 -->
+  <section class="section" id="processing">
+    <header>
+      <span class="sec-no">04</span><h2>Processing spec</h2>
+      <p class="lead">The worker makes exactly one master. Every other size comes from the edge. Rows marked gold are specific to bullion photography.</p>
+    </header>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Setting</th><th>Value</th><th>Why</th></tr></thead>
+        <tbody>
+          <tr><td>Accepted input</td><td>JPEG, PNG, WebP, AVIF · max 10 MB</td><td>Checked when signing and again from the real bytes</td></tr>
+          <tr><td>Pixel limit</td><td>50 MP</td><td>Blocks decompression bombs</td></tr>
+          <tr><td>Orientation</td><td>EXIF auto-rotate</td><td>Phone shots come out upright</td></tr>
+          <tr><td>Master</td><td>Fit inside 2000 × 2000, never enlarged · WebP q90</td><td>High-quality source for every edge size, including zoom</td></tr>
+          <tr style="background: var(--gold-wash)"><td>Colour space</td><td>Convert to sRGB</td><td>CMYK or Display P3 studio exports otherwise shift the gold towards green or orange on some screens</td></tr>
+          <tr style="background: var(--gold-wash)"><td>Shape</td><td>Product shots must be square (±2%)</td><td>Grids never crop, so the purity stamp is never cut off</td></tr>
+          <tr style="background: var(--gold-wash)"><td>Minimum size</td><td>2000 px on the short side for primary and hallmark shots</td><td>Pinch-zoom on the hallmark needs real pixels; we never upscale</td></tr>
+          <tr style="background: var(--gold-wash)"><td>Transparency</td><td>Kept (WebP alpha)</td><td>Cut-out bars can sit on any tile colour in the app</td></tr>
+          <tr><td>Metadata</td><td>Stripped</td><td>No camera serials or GPS from the studio</td></tr>
+          <tr><td>Placeholders</td><td>ThumbHash (keeps alpha) + average colour</td><td>See section 08</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Key prefix</th><th>Bucket</th><th>Lifetime</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">uploads/products/&lt;id&gt;/&lt;role&gt;/&lt;uuid&gt;.jpg</td><td>uploads · private</td><td>Until processed; 1-day lifecycle rule removes abandoned ones</td></tr>
+          <tr><td class="mono">originals/products/&lt;id&gt;/&lt;role&gt;/&lt;mediaId&gt;.jpg</td><td>uploads · private</td><td>Kept, for reprocessing with new settings</td></tr>
+          <tr><td class="mono">products/&lt;id&gt;/&lt;role&gt;/&lt;mediaId&gt;.webp</td><td>media · public via edge</td><td>Kept; immutable, cached for 1 year</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 05 -->
+  <section class="section" id="delivery">
+    <header>
+      <span class="sec-no">05</span><h2>Cloudflare delivery</h2>
+      <p class="lead">Cloudflare Image Transformations resize the master when the URL asks for a size. The options live in the path, so changing a size is a string change, not a deploy of new files.</p>
+    </header>
+    <div class="url" aria-label="Example image URL">
+      <span class="u-host">https://images.example.com</span><span class="u-cdn">/cdn-cgi/image/</span><span class="u-opt">width=540,quality=80,fit=scale-down,format=auto,sharpen=1</span>/<span class="u-key">products/gb-1g-24k-999/primary/6730f2c19e4b0a1d2c3e4f50.webp</span>
+    </div>
+    <div class="url-key">
+      <span><b>Host</b>: our image domain on Cloudflare</span>
+      <span style="color: var(--teal)"><b>/cdn-cgi/image/</b>: turns on resizing</span>
+      <span style="color: var(--gold)"><b>Options</b>: one of five fixed sizes</span>
+      <span style="color: var(--violet)"><b>Key</b>: the master in R2, never changes</span>
+    </div>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Option</th><th>Value</th><th>Why</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">width</td><td>160 · 360 · 540 · 1200 · 2000</td><td>Only these five sizes, so caches stay warm and cost stays predictable</td></tr>
+          <tr><td class="mono">fit</td><td>scale-down</td><td>Never upscales and never crops the bar</td></tr>
+          <tr><td class="mono">quality</td><td>80, or 85 for 1200 and 2000</td><td>Fine engraving needs a little more at detail and zoom sizes</td></tr>
+          <tr><td class="mono">format</td><td>auto on web · webp in the apps</td><td>Browsers that accept AVIF get it; native image libraries get WebP</td></tr>
+          <tr><td class="mono">sharpen</td><td>1 for sizes up to 540</td><td>Keeps "24kt" and "999" crisp after a big downscale</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <h3>One master, five sizes (to scale)</h3>
+    <div class="diagram small"><svg id="d-scale" viewBox="0 0 760 300" role="img" aria-label="Squares drawn to scale: 2000, 1200, 540, 360 and 160 pixels wide, with their megapixel counts."></svg></div>
+    <h3>What happens on a view</h3>
+    <div class="diagram small"><svg id="d-read" viewBox="0 0 1000 270" role="img" aria-label="Read path: the phone asks the edge for a size; if cached it is served at once; if not, the edge reads the master from R2, resizes it, caches it and serves it."></svg></div>
+    <p>A new photo always gets a new <code>mediaId</code>, so it has a new URL. Old sizes simply stop being requested and age out of the cache. Nothing ever needs purging.</p>
+  </section>
+
+  <!-- 06 -->
+  <section class="section" id="devices">
+    <header>
+      <span class="sec-no">06</span><h2>Device-specific sizes</h2>
+      <p class="lead">Rule: take the slot's on-screen width × the device pixel ratio, then use the smallest size that covers it. Try it for the gold bar below.</p>
+    </header>
+    <div class="calc">
+      <div class="calc-in">
+        <label for="c-device">Device
+          <select id="c-device"></select>
+        </label>
+        <label for="c-slot">Where the bar appears
+          <select id="c-slot"></select>
+        </label>
+        <p class="calc-why" id="c-math"></p>
+      </div>
+      <div class="calc-out" aria-live="polite">
+        <div class="calc-row">
+          <div><small>Needs</small><b id="c-need"></b></div>
+          <div><small>Size used</small><b id="c-bucket"></b></div>
+          <div><small>Download <span class="est">est.</span></small><b id="c-kb"></b></div>
+          <div><small>Decoded memory</small><b id="c-mem"></b></div>
+        </div>
+        <div class="calc-url" id="c-url"></div>
+        <p class="calc-why" id="c-vs"></p>
+      </div>
+    </div>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Size</th><th class="num">Width</th><th>Used for</th><th class="num">Download <span class="est">est.</span></th><th class="num">Decoded</th></tr></thead>
+        <tbody>
+          <tr><td>thumb</td><td class="num">160</td><td>Cart, order history, search suggestions</td><td class="num">7 KB</td><td class="num">0.1 MB</td></tr>
+          <tr><td>card-s</td><td class="num">360</td><td>Product grid on 2× phones</td><td class="num">24 KB</td><td class="num">0.5 MB</td></tr>
+          <tr><td>card</td><td class="num">540</td><td>Product grid on 3× phones, tablets and desktop</td><td class="num">45 KB</td><td class="num">1.2 MB</td></tr>
+          <tr><td>detail</td><td class="num">1200</td><td>Product page hero</td><td class="num">150 KB</td><td class="num">5.8 MB</td></tr>
+          <tr><td>zoom</td><td class="num">2000</td><td>Pinch-zoom on the stamp and hallmark</td><td class="num">330 KB</td><td class="num">16 MB</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="two">
+      <div class="chart" style="gap: 8px">
+        <h3>App: one helper builds every URL</h3>
+<pre><span class="k">export const</span> IMAGE_SIZES = { thumb: <span class="s">160</span>, cardS: <span class="s">360</span>, card: <span class="s">540</span>, detail: <span class="s">1200</span>, zoom: <span class="s">2000</span> }
+
+<span class="k">export function</span> imageUrl(key, size, format = <span class="s">'webp'</span>) {
+  <span class="k">const</span> w = IMAGE_SIZES[size]
+  <span class="k">const</span> opts = [
+    <span class="s">`width=${w}`</span>, <span class="s">'fit=scale-down'</span>,
+    <span class="s">`quality=${w >= 1200 ? 85 : 80}`</span>,
+    <span class="s">`format=${format}`</span>,
+    w &lt;= <span class="s">540</span> &amp;&amp; <span class="s">'sharpen=1'</span>,
+  ].filter(Boolean).join(<span class="s">','</span>)
+  <span class="k">return</span> <span class="s">`${CDN}/cdn-cgi/image/${opts}/${key}`</span>
+}</pre>
+      </div>
+      <div class="chart" style="gap: 8px">
+        <h3>Web: let the browser pick</h3>
+<pre>&lt;img
+  src=<span class="s">"…/width=540,…/products/…/6730….webp"</span>
+  srcset=<span class="s">"…/width=360,…  360w,
+          …/width=540,…  540w,
+          …/width=1200,… 1200w"</span>
+  sizes=<span class="s">"(min-width: 1024px) 262px, 50vw"</span>
+  width=<span class="s">"540"</span> height=<span class="s">"540"</span>
+  alt=<span class="s">"1 g 24 kt 999 gold bar, front"</span>
+  loading=<span class="s">"lazy"</span> decoding=<span class="s">"async"</span>&gt;</pre>
+        <p class="note">Width and height from the API reserve the box, so the grid doesn't jump.</p>
+      </div>
+    </div>
+    <p class="note">Rules for app screens: render product images only through one component that takes a <code>size</code>; prefetch the same sized URL the screen will show (a prefetch of the master is a different cache key and is wasted); use virtualised lists for grids over about six items.</p>
+  </section>
+
+  <!-- 07 -->
+  <section class="section" id="savings">
+    <header>
+      <span class="sec-no">07</span><h2>CPU, memory and bandwidth</h2>
+      <p class="lead">Three places get cheaper: our worker, our origin on every view, and the customer's phone.</p>
+    </header>
+
+    <div class="chart">
+      <h3>Worker CPU per uploaded photo <span class="est">est.</span></h3>
+      <div class="bars" id="ch-cpu"></div>
+      <p class="note">Pre-generating = 5 widths × 3 formats (JPEG, WebP, AVIF) = 15 encodes, with AVIF the slowest at about 6 s of the total. This design = one decode, one resize, one WebP master and the hashes. For 1,500 products × 4 photos that is about <b>13 CPU-hours vs 1.5</b>. Confirm with the <code>processingTimeMs</code> the worker logs.</p>
+    </div>
+
+    <div class="two">
+      <div class="panel">
+        <h3>Origin CPU on every view</h3>
+        <p>If our servers resized on request, each view would cost about 0.15 s of CPU <span class="est">est.</span>: 1,000,000 views a month ≈ <b>42 CPU-hours</b>. With the edge, our servers spend <b>0</b>. Cloudflare makes each size once and serves the rest from cache; R2 is read only on a cache miss.</p>
+      </div>
+      <div class="panel">
+        <h3>The customer's phone</h3>
+        <p>Decoding work and memory grow with pixel count (<code>width × height × 4 bytes</code>). A 540 card is 0.29 MP vs 4.0 MP for the master: <b>93% fewer pixels</b>. A grid of 24 bars needs about <b>28 MB</b> instead of <b>384 MB</b>, which is the difference between smooth scrolling and a crash on a budget Android phone.</p>
+      </div>
+    </div>
+
+    <div class="chart">
+      <h3>Decoded memory per image, by size (MB)</h3>
+      <div class="bars" id="ch-mem"></div>
+      <div class="axis"><span></span><div><span>0</span><span>4</span><span>8</span><span>12</span><span>16</span></div><span></span></div>
+    </div>
+
+    <div class="chart">
+      <h3>Download per image, by size (KB) <span class="est">est.</span></h3>
+      <div class="bars" id="ch-kb"></div>
+      <p class="note">The 8 MB studio JPEG would be about 24 times the zoom size, so it never leaves R2.</p>
+    </div>
+  </section>
+
+  <!-- 08 -->
+  <section class="section" id="placeholders">
+    <header>
+      <span class="sec-no">08</span><h2>Placeholders and colour</h2>
+      <p class="lead">Every product image arrives with a ThumbHash (about 30 bytes) and its average colour, so a tile paints before any image request finishes.</p>
+    </header>
+    <div class="stages">
+      <div class="stage"><div class="tile avg" aria-hidden="true"></div><b>Before any data</b><span>Tile uses the average colour from the product JSON.</span></div>
+      <div class="stage"><div class="tile blur" aria-hidden="true"><div class="mini"><span>1 gram</span>24kt<br>999</div></div><b>0 ms</b><span>ThumbHash decoded on the device; no network needed, even offline.</span></div>
+      <div class="stage"><div class="tile sharp" aria-hidden="true"><div class="mini"><span>1 gram</span>24kt<br>999</div></div><b>Image loaded</b><span>The 540 WebP fades in over the blur.</span></div>
+    </div>
+    <div class="two">
+      <div class="panel">
+        <h3>Why ThumbHash, not BlurHash</h3>
+        <p>BlurHash has no transparency, so a cut-out bar flattens onto white and the placeholder flashes a white square on a purple tile. ThumbHash keeps alpha and the aspect ratio. Keep the placeholder's fit equal to the image's fit, or the blur visibly jumps when the image lands.</p>
+      </div>
+      <div class="panel">
+        <h3>Using the average colour</h3>
+        <p>The app can tint the product tile, glow or detail-page background from the average colour, with fixed lightness so text stays readable. For a busy lifestyle shot the average turns muddy, so fall back to the brand tile colour there.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 09 -->
+  <section class="section" id="cloudflare">
+    <header>
+      <span class="sec-no">09</span><h2>Cloudflare setup and cost</h2>
+    </header>
+    <div class="two">
+      <div class="panel">
+        <h3>Setup checklist</h3>
+        <ul>
+          <li>Two R2 buckets: <code>uploads</code> (private) and <code>media</code> (public through a custom domain such as <code>images.&lt;domain&gt;</code>).</li>
+          <li>Turn on Image Transformations for that zone, and allow resizing only from our own image domain.</li>
+          <li>CORS on the uploads bucket: <code>PUT</code> with <code>Content-Type</code> from the admin's origin only.</li>
+          <li>Lifecycle rule: delete <code>uploads/</code> objects after 1 day.</li>
+          <li>Masters carry <code>Cache-Control: public, max-age=31536000, immutable</code>.</li>
+          <li>Optional: a Worker can apply the same options with <code>fetch(url, { cf: { image: { … } } })</code> if we want short preset URLs later.</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h3>Monthly cost example <span class="est">est.</span></h3>
+        <div class="scroll" style="border: 0">
+          <table>
+            <tbody>
+              <tr><td>Product photos</td><td class="num">1,500 × 4 = 6,000</td></tr>
+              <tr><td>Unique sizes (× 5)</td><td class="num">30,000</td></tr>
+              <tr><td>Transformations, after 5,000 free at $0.50 per 1,000</td><td class="num">$12.50</td></tr>
+              <tr><td>R2 storage: 48 GB originals + 2 GB masters at $0.015/GB</td><td class="num">$0.75</td></tr>
+              <tr><td>Egress from R2</td><td class="num">$0</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="note">List prices as I know them; check Cloudflare's pricing pages before budgeting, including how <code>format=auto</code> variants are counted on your plan.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10 -->
+  <section class="section" id="api">
+    <header>
+      <span class="sec-no">10</span><h2>Data model and API</h2>
+    </header>
+    <div class="two">
+<pre><span class="c">// Media: one row per uploaded file</span>
+{
+  uploadKey:  <span class="s">"uploads/products/…/primary/9c1d….jpg"</span>, <span class="c">// unique</span>
+  originalKey: <span class="s">"originals/products/…/6730….jpg"</span>,
+  key:        <span class="s">"products/…/primary/6730….webp"</span>,
+  width: <span class="s">2000</span>, height: <span class="s">2000</span>,
+  thumbhash:  <span class="s">"3OcRJYB4d3h/iIeHeEh3eIhw+j3A"</span>,
+  avgColor:   <span class="s">"#4A2C55"</span>,
+  status:     <span class="s">"READY"</span>, <span class="c">// PROCESSING | READY | FAILED</span>
+  inputBytes: <span class="s">8388608</span>, outputBytes: <span class="s">331776</span>,
+  processingTimeMs: <span class="s">910</span>
+}</pre>
+<pre><span class="c">// Product.images[]: copied from Media when READY</span>
+{
+  mediaId: <span class="s">"6730f2c19e4b0a1d2c3e4f50"</span>,
+  role:    <span class="s">"primary"</span>, <span class="c">// primary | back | hallmark | packaging</span>
+  alt:     <span class="s">"1 g 24 kt 999 gold bar, front"</span>,
+  key, width, height, thumbhash, avgColor,
+  order:   <span class="s">1</span>
+}
+
+<span class="c">// In API responses, add the master url and status</span>
+{ …image, url: <span class="s">"https://images.example.com/products/…webp"</span>,
+  status: <span class="s">"READY"</span> }</pre>
+    </div>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Endpoint</th><th>Purpose</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">GET /products/new-id</td><td>Id for a new product, so photos upload under its real folder before it is saved</td></tr>
+          <tr><td class="mono">POST /uploads/signed-url</td><td>Signed PUT for one file; <code>contentLength</code> required</td></tr>
+          <tr><td class="mono">POST /products · PATCH /products/:id</td><td>Save <code>images: [{ uploadKey, role, alt }]</code>; queues processing</td></tr>
+          <tr><td class="mono">GET /media/:id</td><td>Poll while <code>PROCESSING</code>; returns <code>url</code> when <code>READY</code> or the reason when <code>FAILED</code></td></tr>
+          <tr><td class="mono">POST /media/:id/reprocess</td><td>Admin only: rerun from the kept original after a settings change or a transient failure</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">Clients receive the key and metadata and build sized URLs with the one helper from section 06, so sizes can change in the apps without an API release.</p>
+  </section>
+
+  <!-- 11 -->
+  <section class="section" id="plan">
+    <header>
+      <span class="sec-no">11</span><h2>Rollout plan</h2>
+      <p class="lead">Each phase is usable on its own and has a check that tells us it worked.</p>
+    </header>
+    <div class="phases">
+      <div class="phase"><div class="tag">Phase<b>1</b>Storage</div><div><ul><li>Create both R2 buckets, CORS, lifecycle rule, custom image domain.</li><li>Signed-URL endpoint with type and size signed in.</li></ul><p class="exit">Done when: an 8 MB bar photo uploads from the admin and API logs show no image bytes.</p></div></div>
+      <div class="phase"><div class="tag">Phase<b>2</b>Worker</div><div><ul><li><code>Media</code> rows, queue, sharp worker as its own process.</li><li>sRGB conversion, square check, ThumbHash, average colour.</li></ul><p class="exit">Done when: 95% of uploads are READY within 5 s, and bad files are FAILED with a reason.</p></div></div>
+      <div class="phase"><div class="tag">Phase<b>3</b>Delivery</div><div><ul><li>Turn on Image Transformations; ship the <code>imageUrl</code> helper and five sizes in app and web.</li><li><code>srcset</code> and <code>sizes</code> on every web product image.</li></ul><p class="exit">Done when: product cards download under 50 KB each and the edge cache hit ratio is over 95% after a day.</p></div></div>
+      <div class="phase"><div class="tag">Phase<b>4</b>Polish</div><div><ul><li>ThumbHash placeholders and tile colours.</li><li>Prefetch the sized URLs for the home grid.</li></ul><p class="exit">Done when: no empty tiles in the grid, and web product pages reach p75 LCP under 2.5 s.</p></div></div>
+      <div class="phase"><div class="tag">Phase<b>5</b>Harden</div><div><ul><li>Admin-only queue dashboard, ownership check on signing, reprocess endpoint.</li><li>Clean-up job for replaced photos; alerts on FAILED rate and transformation budget.</li></ul><p class="exit">Done when: the queue dashboard needs admin login, signing checks product access, and replaced photos are cleaned up.</p></div></div>
+    </div>
+  </section>
+
+  <footer>Draft high-level design for AuraGold product images. Example ids, domains and sizes are illustrative; replace <code>images.example.com</code> with the real image domain. Estimates are marked and should be replaced with measured figures after phase 2.</footer>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/roughjs@4.6.6/bundled/rough.js"></script>
+<script>
+(function () {
+  const NS = 'http://www.w3.org/2000/svg';
+  const el = (tag, attrs, parent) => {
+    const e = document.createElementNS(NS, tag);
+    for (const k in attrs) if (attrs[k] != null) e.setAttribute(k, attrs[k]);
+    if (parent) parent.appendChild(e);
+    return e;
+  };
+
+  // A pen draws in Excalidraw style with rough.js, or plain SVG if the library is blocked.
+  function pen(svg) {
+    const rc = window.rough ? window.rough.svg(svg) : null;
+    let seed = 11;
+    const o = (x) => Object.assign({ seed: seed++, roughness: 1.1, bowing: 0.8 }, x);
+    const group = (cls) => el('g', { class: cls }, svg);
+    return {
+      group,
+      box(g, x, y, w, h, { fill = true, dash = false } = {}) {
+        if (rc) {
+          if (fill) { const f = rc.rectangle(x, y, w, h, o({ stroke: 'none', fill: 'currentColor', fillStyle: 'hachure', hachureGap: 6, fillWeight: 0.8 })); f.setAttribute('class', 'hatch'); g.appendChild(f); }
+          const opts = { stroke: 'currentColor', strokeWidth: dash ? 1.4 : 1.7 };
+          if (dash) opts.strokeLineDash = [8, 7];
+          g.appendChild(rc.rectangle(x, y, w, h, o(opts)));
+        } else {
+          el('rect', { x, y, width: w, height: h, rx: 8, class: fill ? 'plain-fill' : 'plain', 'stroke-dasharray': dash ? '8 7' : null }, g);
+        }
+      },
+      store(g, x, y, w, h) {
+        const cx = x + w / 2, ry = 9;
+        if (rc) {
+          const f = rc.rectangle(x, y, w, h, o({ stroke: 'none', fill: 'currentColor', fillStyle: 'hachure', hachureGap: 6, fillWeight: 0.8 })); f.setAttribute('class', 'hatch'); g.appendChild(f);
+          const s = { stroke: 'currentColor', strokeWidth: 1.7 };
+          g.appendChild(rc.ellipse(cx, y, w, ry * 2, o(s)));
+          g.appendChild(rc.line(x, y, x, y + h, o(s)));
+          g.appendChild(rc.line(x + w, y, x + w, y + h, o(s)));
+          g.appendChild(rc.arc(cx, y + h, w, ry * 2, 0, Math.PI, false, o(s)));
+        } else {
+          el('rect', { x, y, width: w, height: h, class: 'plain-fill', stroke: 'none' }, g);
+          el('ellipse', { cx, cy: y, rx: w / 2, ry, class: 'plain' }, g);
+          el('path', { d: `M${x},${y} V${y + h} A${w / 2},${ry} 0 0 0 ${x + w},${y + h} V${y}`, class: 'plain' }, g);
+        }
+      },
+      diamond(g, cx, cy, w, h) {
+        const pts = [[cx, cy - h / 2], [cx + w / 2, cy], [cx, cy + h / 2], [cx - w / 2, cy]];
+        if (rc) {
+          const f = rc.polygon(pts, o({ stroke: 'none', fill: 'currentColor', fillStyle: 'hachure', hachureGap: 6, fillWeight: 0.8 })); f.setAttribute('class', 'hatch'); g.appendChild(f);
+          g.appendChild(rc.polygon(pts, o({ stroke: 'currentColor', strokeWidth: 1.7 })));
+        } else {
+          el('polygon', { points: pts.map((p) => p.join(',')).join(' '), class: 'plain-fill' }, g);
+        }
+      },
+      arrow(g, pts, { dash = false } = {}) {
+        if (rc) {
+          const opts = { stroke: 'currentColor', strokeWidth: 1.7, roughness: 0.8 };
+          if (dash) opts.strokeLineDash = [7, 6];
+          g.appendChild(rc.linearPath(pts, o(opts)));
+        } else {
+          el('polyline', { points: pts.map((p) => p.join(',')).join(' '), class: 'plain', 'stroke-dasharray': dash ? '7 6' : null }, g);
+        }
+        const [a, b] = pts.slice(-2);
+        const ang = Math.atan2(b[1] - a[1], b[0] - a[0]);
+        for (const d of [0.45, -0.45]) {
+          const p = [b[0] - 13 * Math.cos(ang + d), b[1] - 13 * Math.sin(ang + d)];
+          if (rc) g.appendChild(rc.line(b[0], b[1], p[0], p[1], o({ stroke: 'currentColor', strokeWidth: 1.7, roughness: 0.6 })));
+          else el('line', { x1: b[0], y1: b[1], x2: p[0], y2: p[1], class: 'plain' }, g);
+        }
+      },
+    };
+  }
+
+  function text(svg, x, y, lines, { cls = 'd-label', anchor = 'middle', gap = 15 } = {}) {
+    const t = el('text', { x, y, 'text-anchor': anchor, class: cls }, svg);
+    lines.forEach((line, i) => {
+      const s = el('tspan', { x, dy: i === 0 ? 0 : gap }, t);
+      s.textContent = line;
+    });
+    return t;
+  }
+
+  // label plus mono sub-lines, centred in a box
+  function node(p, svg, tone, shape, x, y, w, h, label, subs = []) {
+    const g = p.group('tone-' + tone);
+    if (shape === 'store') p.store(g, x, y, w, h); else p.box(g, x, y, w, h);
+    const total = 20 + subs.length * 14;
+    const top = y + h / 2 - total / 2 + 14 + (shape === 'store' ? 5 : 0);
+    text(svg, x + w / 2, top, [label]);
+    if (subs.length) text(svg, x + w / 2, top + 18, subs, { cls: 'd-sub', gap: 14 });
+  }
+
+  function edge(p, svg, kind, pts, label, lx, ly, anchor = 'middle') {
+    const g = p.group('tone-' + kind);
+    p.arrow(g, pts, { dash: kind === 'read' });
+    if (label) text(svg, lx, ly, [label], { cls: 'd-edge tone-' + kind, anchor });
+  }
+
+  function zone(p, svg, x, y, w, h, label) {
+    const g = p.group('tone-zone');
+    p.box(g, x, y, w, h, { fill: false, dash: true });
+    text(svg, x + 14, y + 24, [label], { cls: 'd-zone', anchor: 'start' });
+  }
+
+  function drawArch() {
+    const svg = document.getElementById('d-arch');
+    const p = pen(svg);
+    zone(p, svg, 16, 30, 208, 530, 'People & devices');
+    zone(p, svg, 252, 30, 316, 530, 'Cloudflare');
+    zone(p, svg, 596, 30, 508, 530, 'Our backend');
+
+    node(p, svg, 'client', 'box', 40, 80, 160, 76, 'Admin CMS', ['uploads bar photos']);
+    node(p, svg, 'client', 'box', 40, 220, 160, 64, 'iOS app');
+    node(p, svg, 'client', 'box', 40, 310, 160, 64, 'Android app');
+    node(p, svg, 'client', 'box', 40, 400, 160, 64, 'Web store');
+
+    node(p, svg, 'edge', 'box', 284, 200, 252, 130, 'Edge cache', ['Image Transformations', '/cdn-cgi/image/…', 'one copy per size']);
+    node(p, svg, 'store', 'store', 300, 372, 220, 66, 'R2 · media', ['public · WebP masters']);
+    node(p, svg, 'store', 'store', 300, 470, 220, 66, 'R2 · uploads', ['private · raw + originals']);
+
+    node(p, svg, 'backend', 'box', 630, 80, 190, 76, 'API (Express)', ['signs URLs · saves keys']);
+    node(p, svg, 'store', 'store', 870, 82, 200, 72, 'MongoDB', ['Media · Product.images']);
+    node(p, svg, 'backend', 'box', 630, 250, 190, 76, 'Redis · BullMQ', ['process-image jobs']);
+    node(p, svg, 'backend', 'box', 870, 240, 200, 96, 'Image worker', ['sharp → WebP ≤ 2000px', 'ThumbHash · avg colour']);
+
+    edge(p, svg, 'write', [[200, 100], [630, 100]], '① sign URL   ③ save uploadKey', 415, 90);
+    edge(p, svg, 'write', [[200, 140], [238, 140], [238, 505], [300, 505]], '② PUT bytes', 238, 186);
+    edge(p, svg, 'write', [[725, 156], [725, 250]], '④ queue', 735, 208, 'start');
+    edge(p, svg, 'write', [[820, 118], [870, 118]]);
+    edge(p, svg, 'write', [[820, 288], [870, 288]], '⑤', 845, 278);
+    edge(p, svg, 'write', [[1000, 336], [1000, 505], [520, 505]], '⑥ read raw → originals/', 760, 495);
+    edge(p, svg, 'write', [[900, 336], [900, 405], [520, 405]], '⑦ write master WebP', 710, 395);
+    edge(p, svg, 'write', [[970, 240], [970, 154]], '⑧ READY + hashes', 978, 202, 'start');
+
+    edge(p, svg, 'read', [[200, 252], [284, 252]]);
+    edge(p, svg, 'read', [[200, 342], [284, 300]]);
+    edge(p, svg, 'read', [[200, 432], [284, 318]]);
+    text(svg, 410, 190, ['apps ask for a size'], { cls: 'd-edge tone-read' });
+    edge(p, svg, 'read', [[410, 330], [410, 372]], 'miss: read master once', 418, 356, 'start');
+  }
+
+  function drawRead() {
+    const svg = document.getElementById('d-read');
+    const p = pen(svg);
+    node(p, svg, 'client', 'box', 20, 95, 150, 70, 'Phone / browser', ['asks for width=540']);
+    const g = p.group('tone-edge');
+    p.diamond(g, 330, 130, 180, 116);
+    text(svg, 330, 125, ['Cached at', 'this size?'], { gap: 18 });
+    node(p, svg, 'edge', 'box', 560, 30, 210, 72, 'Serve from edge', ['~45 KB · no origin work']);
+    node(p, svg, 'backend', 'box', 560, 165, 210, 86, 'Make it once', ['read master from R2', 'resize · sharpen · encode']);
+    node(p, svg, 'store', 'box', 815, 165, 170, 86, 'Keep in cache', ['for the next viewer']);
+    edge(p, svg, 'read', [[170, 130], [240, 130]]);
+    edge(p, svg, 'read', [[420, 130], [480, 66], [560, 66]], 'yes', 462, 84, 'end');
+    edge(p, svg, 'write', [[330, 188], [330, 208], [560, 208]], 'no', 445, 200);
+    edge(p, svg, 'write', [[770, 208], [815, 208]]);
+    edge(p, svg, 'write', [[900, 165], [900, 66], [770, 66]], 'then serve', 905, 120, 'start');
+  }
+
+  function drawScale() {
+    const svg = document.getElementById('d-scale');
+    const p = pen(svg);
+    const base = 250;
+    const sizes = [[2000, 'zoom', 20], [1200, 'detail', 260], [540, 'card', 420], [360, 'card-s', 520], [160, 'thumb', 600]];
+    sizes.forEach(([px, name, x], i) => {
+      const s = px / 10;
+      const g = p.group(i === 0 ? 'tone-edge' : 'tone-client');
+      p.box(g, x, base - s, s, s);
+      const mp = (px * px / 1e6).toFixed(px >= 1000 ? 1 : 2);
+      text(svg, x + s / 2, base + 20, [`${px} · ${name}`], { cls: 'd-label' });
+      text(svg, x + s / 2, base - s - 8, [`${mp} MP`], { cls: 'd-sub' });
+    });
+    text(svg, 640, 60, ['each square is drawn', 'at 1/10 of its pixel width'], { cls: 'd-edge tone-read', anchor: 'start', gap: 18 });
+  }
+
+  // ---- Charts (single series; one linear scale per chart) ----
+  function bars(id, rows, max, unit, fmt) {
+    const host = document.getElementById(id);
+    rows.forEach((r) => {
+      const row = document.createElement('div');
+      row.className = 'bar' + (r.muted ? ' muted' : '');
+      row.title = `${r.label}: ${fmt(r.value)} ${unit}`;
+      row.innerHTML = `<span class="lbl"></span><span class="track"><span class="fill"></span></span><span class="val"></span>`;
+      row.querySelector('.lbl').textContent = r.label;
+      row.querySelector('.fill').style.width = (r.value / max * 100) + '%';
+      row.querySelector('.val').textContent = `${fmt(r.value)} ${unit}`;
+      host.appendChild(row);
+    });
+  }
+  bars('ch-cpu', [
+    { label: 'Pre-generate 15', value: 8.0, muted: true },
+    { label: 'This design', value: 0.9 },
+  ], 8, 's', (v) => v.toFixed(1));
+  bars('ch-mem', [
+    { label: '2000 zoom', value: 16.0, muted: true },
+    { label: '1200 detail', value: 5.76 },
+    { label: '540 card', value: 1.17 },
+    { label: '360 card-s', value: 0.52 },
+    { label: '160 thumb', value: 0.1 },
+  ], 16, 'MB', (v) => (v < 1 ? v.toFixed(2) : v.toFixed(1)));
+  bars('ch-kb', [
+    { label: '2000 zoom', value: 330, muted: true },
+    { label: '1200 detail', value: 150 },
+    { label: '540 card', value: 45 },
+    { label: '360 card-s', value: 24 },
+    { label: '160 thumb', value: 7 },
+  ], 330, 'KB', (v) => String(v));
+
+  // ---- Device calculator ----
+  const SIZES = [160, 360, 540, 1200, 2000];
+  const KB = { 160: 7, 360: 24, 540: 45, 1200: 150, 2000: 330 };
+  const DEVICES = [
+    { id: 'budget', name: 'Budget Android (360 dp, 2×)', w: 360, dpr: 2 },
+    { id: 'pixel', name: 'Pixel 8 (412 dp, 2.625×)', w: 412, dpr: 2.625 },
+    { id: 'iphone', name: 'iPhone 15 (393 pt, 3×)', w: 393, dpr: 3 },
+    { id: 'ipad', name: 'iPad 10th gen (820 pt, 2×)', w: 820, dpr: 2 },
+    { id: 'desktop', name: 'Desktop web (1440 px, 2×)', w: 1440, dpr: 2, web: true },
+  ];
+  const SLOTS = [
+    { id: 'thumb', name: 'Cart thumbnail', width: (d) => (d.web ? 64 : 48), how: 'fixed thumbnail' },
+    { id: 'card', name: 'Product grid card', width: (d) => {
+        if (d.web) return (1120 - 3 * 24) / 4;
+        const cols = d.w >= 700 ? 3 : 2;
+        return (d.w - 32 - 12 * (cols - 1)) / cols;
+      }, how: 'grid column' },
+    { id: 'detail', name: 'Product page hero', width: (d) => (d.web || d.w >= 700 ? 560 : d.w - 32), how: 'page width minus margins' },
+    { id: 'zoom', name: 'Pinch-zoom on the hallmark', width: (d) => 2 * (d.web || d.w >= 700 ? 560 : d.w - 32), how: '2× the hero' },
+  ];
+  const dSel = document.getElementById('c-device');
+  const sSel = document.getElementById('c-slot');
+  DEVICES.forEach((d) => dSel.add(new Option(d.name, d.id)));
+  SLOTS.forEach((s) => sSel.add(new Option(s.name, s.id)));
+  dSel.value = 'iphone'; sSel.value = 'card';
+
+  function update() {
+    const d = DEVICES.find((x) => x.id === dSel.value);
+    const s = SLOTS.find((x) => x.id === sSel.value);
+    const slotW = Math.round(s.width(d));
+    const need = Math.ceil(slotW * d.dpr);
+    const size = SIZES.find((v) => v >= need) ?? 2000;
+    const mem = size * size * 4 / 1e6;
+    const fewer = Math.round((1 - (size * size) / (2000 * 2000)) * 100);
+    const fmt = d.web ? 'auto' : 'webp';
+    const opts = [`width=${size}`, 'fit=scale-down', `quality=${size >= 1200 ? 85 : 80}`, `format=${fmt}`, size <= 540 ? 'sharpen=1' : null].filter(Boolean).join(',');
+    document.getElementById('c-need').textContent = `${need} px`;
+    document.getElementById('c-bucket').textContent = `${size} px`;
+    document.getElementById('c-kb').textContent = `${KB[size]} KB`;
+    document.getElementById('c-mem').textContent = `${mem < 1 ? mem.toFixed(2) : mem.toFixed(1)} MB`;
+    document.getElementById('c-math').textContent = `${slotW} ${d.web ? 'px' : 'pt'} on screen (${s.how}) × ${d.dpr} pixel ratio = ${need} px. Smallest size that covers it: ${size}${need > 2000 ? ' (capped at the master)' : ''}.`;
+    const urlEl = document.getElementById('c-url');
+    urlEl.textContent = '';
+    urlEl.append('…/cdn-cgi/image/');
+    const optSpan = document.createElement('span');
+    optSpan.className = 'u-opt';
+    optSpan.textContent = opts;
+    urlEl.append(optSpan, '/products/gb-1g-24k-999/primary/6730….webp');
+    document.getElementById('c-vs').textContent = size === 2000
+      ? 'This slot really needs the full master. Load it only when the customer opens zoom.'
+      : `vs. sending the 2000 px master: ${fewer}% fewer pixels to decode, and ${KB[size]} KB instead of ${KB[2000]} KB to download.`;
+  }
+  dSel.addEventListener('change', update);
+  sSel.addEventListener('change', update);
+  update();
+
+  const draw = () => { drawArch(); drawRead(); drawScale(); };
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(draw, draw); else draw();
+})();
+</script>
+
+</body>
+</html>
